@@ -15,7 +15,7 @@ NSafeStream::register();
 
 class NetteInspector implements \Boris\Inspector {
     public function inspect($variable) {
-        return trim(NDebugger::dump($variable, TRUE));
+        return trim(NDebugDumper::toTerminal($variable, array('depth' => 4, 'truncate' => 1000)));
     }
 }
 
