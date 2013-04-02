@@ -19,7 +19,7 @@ class NetteInspector implements \Boris\Inspector {
     }
 }
 
-$boris = new \Boris\Boris();
+$boris = new \Boris\Boris('php> ');
 $boris->setInspector(new NetteInspector());
 
 if (file_exists($netteBootstrap = getcwd() . '/app/bootstrap.php')) {
