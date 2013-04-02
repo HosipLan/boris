@@ -1,0 +1,10 @@
+<?php
+
+
+
+?>
+<div class="nette-UserPanel">
+	<h1><?php if ($this->user->isLoggedIn()): ?>Logged in<?php else: ?>Unlogged<?php endif ?></h1>
+
+	<?php if ($this->user->getIdentity()): echo NDebugDumper::toHtml($this->user->getIdentity()); else: ?><p>no identity</p><?php endif ?>
+</div>

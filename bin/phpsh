@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+
+/* vim: set shiftwidth=2 expandtab softtabstop=2: */
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+extension_loaded('mbstring') && mb_internal_encoding('UTF-8');
+umask(0);
+
+set_error_handler(function () { restore_error_handler(); });
+NDebugger::_init();
+NDebugger::$blueScreen->collapsePaths[] = __DIR__ . '/../lib/Nette';
+NSafeStream::register();
+
+class NetteInspector implements \Boris\Inspector {
+    public function inspect($variable) {
+        return trim(NDebugger::dump($variable, TRUE));
+    }
+}
+
+$boris = new \Boris\Boris();
+$boris->setInspector(new NetteInspector());
+
+if (file_exists($netteBootstrap = getcwd() . '/app/bootstrap.php')) {
+	echo "Found app/bootstrap.php, trying to require it...\n";
+	$boris->setLocal('container', require_once $netteBootstrap);
+	echo "SystemContainer is available as \$container \n\n";
+}
+
+$boris->start();
